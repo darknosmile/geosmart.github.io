@@ -14,15 +14,24 @@
   <entry>
     <title><![CDATA[深层神经网络]]></title>
     <url>%2F2017%2F07%2F20%2F%E6%B7%B1%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
-    <content type="text"><![CDATA[深度学习与深层神经网络损失函数经典损失函数交叉熵 如何判断输出向量和期望向量之间的接近程度？交叉熵是常用的评判方法，其刻画了两个概率分布之间的距离，它是分类问题中使用较广的一种损失函数； Softmax回归如何将神经网络前向传播得到的结果也变成概率分布？Softmax回归是一个非常常用的方法公式： tensorflow 实现交叉熵123456cross_entropy=-tf.reduce_mean(y_*tf.log(tf.clip_by_value(y,1e-10,1.0)))# y_：正确结果# y:预测结果# tf.clip_by_value：将一个张量的数值限制在一个范围内，避免一些运算错误，如log0# tf.log：对张量中的数据依次就对数# * ：乘法，每个位置上对应元素的乘积，不是矩阵乘法 因为交叉熵一般会与softmax回归一起使用，所以tensorflow对这两个功能进行了统一封装，并提供了tf.nn.softmax_cross_entropy_with_logists(y,y_) 对于回归问题，最常用的损失函数是均方差（MSE,mean squared error）；]]></content>
+    <content type="text"><![CDATA[深度学习与深层神经网络损失函数经典损失函数交叉熵 如何判断输出向量和期望向量之间的接近程度？交叉熵是常用的评判方法，其刻画了两个概率分布之间的距离，它是分类问题中使用较广的一种损失函数； Softmax回归如何将神经网络前向传播得到的结果也变成概率分布？Softmax回归是一个非常常用的方法公式： tensorflow 实现交叉熵 123456cross_entropy=-tf.reduce_mean(y_*tf.log(tf.clip_by_value(y,1e-10,1.0)))# y_：正确结果# y:预测结果# tf.clip_by_value：将一个张量的数值限制在一个范围内，避免一些运算错误，如log0# tf.log：对张量中的数据依次就对数# * ：乘法，每个位置上对应元素的乘积，不是矩阵乘法 因为交叉熵一般会与softmax回归一起使用，所以tensorflow对这两个功能进行了统一封装，并提供了tf.nn.softmax_cross_entropy_with_logists(y,y_) 对于回归问题，最常用的损失函数是均方差（MSE,mean squared error）；]]></content>
       <categories>
         <category>人工智能</category>
       </categories>
+      <tags>
+        <tag>TensorFlow</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[机器学习基础概念]]></title>
     <url>%2F2017%2F07%2F11%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%2F</url>
     <content type="text"><![CDATA[监督学习分类问题和回归问题分类问题希望解决的是将不同的样本分到事先定义好的类别中； 分类（Classification）和回归（Regression）的区别在于输出变量的类型。 定量输出称为回归，或者说是连续变量（continous）预测； 定性输出称为分类，或者说是离散变量（discrete）预测。 对Regression回归一词的理解出自高尔顿种豆子的实验，通过大量数据统计，他发现个体小的豆子往往倾向于产生比其更大的子代，而个体大的豆子则倾向于产生比其小的子代，然后高尔顿认为这是由于新个体在向这种豆子的平均尺寸“回归”，大概的意思就是事物总是倾向于朝着某种“平均”发展，也可以说是回归于事物本来的面目。C.R.Rao等在Linear Models and Generalizations: Least Squares and Alternatives中解释道：the literature meaning of REGRESSION is “ to move in the backward direction”，看以下两个陈述：S1: model generates data orS2: data generates model.Rao认为很明显陈述S1才是对的，因为模型实际上本来就是存在的，只不过我们不知道(model exists in nature but is unknown to the experimenter)，先有模型所以我们知道X就能得到Y：先有模型 –&gt; 有了X就有Y（S1），而“回归”的意思就是我们通过收集X与Y来确定实际上存在的关系模型：收集X与Y –&gt; 确定模型（S2），与S1相比，S2就是一个“回到”模型的过程，所以就叫做“regression”。 非监督学习We can derive this structure by clustering the data based on relationships among the variables in the data.Clustering：基因分组Non-clustering: The “Cocktail Party Algorithm”,音频分离 CNNRNNRNN梯度消散问题LSTMMLP（Multi Layer Perceptron ）多层感知器，是一种前向结构的人工神经网络，映射一组输入向量到一组输出向量。MLP可以被看做是一个有向图，由多个节点层组成，每一层全连接到下一层。除了输入节点，每个节点都是一个带有非线性激活函数的神经元（或称处理单元）。一种被称为反向传播算法的监督学习方法常被用来训练MLP。MLP是感知器的推广，克服了感知器不能对线性不可分数据进行识别的弱点。 CUDA(Compute Unified Device Architecture)CUDA是显卡厂商NVIDIA推出的运算平台。 CUDA™是一种由NVIDIA推出的通用并行计算架构，该架构使GPU能够解决复杂的计算问题。 它包含了CUDA指令集架构（ISA）以及GPU内部的并行计算引擎。 开发人员现在可以使用C语言来为CUDA™架构编写程序，C语言是应用最广泛的一种高级编程语言。所编写出的程序于是就可以在支持CUDA™的处理器上以超高性能运行。CUDA3.0已经开始支持C++和FORTRAN。 State of the art对应国内文献里的“研究现状”,当前的最高研究水平。]]></content>
+      <categories>
+        <category>人工智能</category>
+      </categories>
+      <tags>
+        <tag>Machine Leaning</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Machine Learning课程笔记Week1-损失函数]]></title>
