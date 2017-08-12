@@ -11,9 +11,9 @@
         <title>TensorFlow环境搭建</title>
         <pubTime>2017-07-01T03:46:21.000Z</pubTime>
         
-        <tag>TensorFlow</tag>
-         
         <tag>Python</tag>
+         
+        <tag>TensorFlow</tag>
          
         <tag>Anaconda</tag>
          
@@ -590,9 +590,9 @@
         <title>Hadoop集群部署</title>
         <pubTime>2015-08-08T03:38:22.000Z</pubTime>
         
-        <tag>Hadoop</tag>
-         
         <tag>分布式</tag>
+         
+        <tag>Hadoop</tag>
          
         <tag>CDH</tag>
          
@@ -679,9 +679,9 @@
         <title>MySQL存储过程学习笔记</title>
         <pubTime>2016-03-08T11:31:39.000Z</pubTime>
         
-        <tag>Stored Procedure</tag>
-         
         <tag>MySQL</tag>
+         
+        <tag>Stored Procedure</tag>
          
          
            
@@ -743,9 +743,9 @@
         
         <tag>Hadoop</tag>
          
-        <tag>Sqoop</tag>
-         
         <tag>Hive</tag>
+         
+        <tag>Sqoop</tag>
          
          
            
@@ -805,9 +805,9 @@
         <title>GATE中文自然语言处理学习笔记</title>
         <pubTime>2015-09-17T03:28:20.000Z</pubTime>
         
-        <tag>大数据</tag>
-         
         <tag>NLP</tag>
+         
+        <tag>大数据</tag>
          
         <tag>GATE</tag>
          
@@ -933,9 +933,9 @@
         <title>MongoDB与Neo4j数据同步</title>
         <pubTime>2016-03-23T09:18:13.000Z</pubTime>
         
-        <tag>Neo4j</tag>
-         
         <tag>MongoDB</tag>
+         
+        <tag>Neo4j</tag>
          
          
            
@@ -955,11 +955,11 @@
         <title>Hive学习笔记</title>
         <pubTime>2015-12-06T13:03:50.000Z</pubTime>
         
+        <tag>分布式</tag>
+         
         <tag>Hadoop</tag>
          
         <tag>Hive</tag>
-         
-        <tag>分布式</tag>
          
          
            
@@ -979,9 +979,9 @@
         <title>正则表达式学习笔记</title>
         <pubTime>2015-10-03T08:59:33.000Z</pubTime>
         
-        <tag>NLP</tag>
-         
         <tag>RegEx</tag>
+         
+        <tag>NLP</tag>
          
          
            
@@ -1209,9 +1209,9 @@
         <title>MyEclipse安装MapReduceTools插件</title>
         <pubTime>2015-11-20T13:03:50.000Z</pubTime>
         
-        <tag>Hadoop</tag>
-         
         <tag>分布式</tag>
+         
+        <tag>Hadoop</tag>
          
         <tag>MapReduce</tag>
          
@@ -1253,9 +1253,9 @@
         <title>Hadoop集群离线部署</title>
         <pubTime>2015-10-20T03:04:32.000Z</pubTime>
         
-        <tag>Hadoop</tag>
-         
         <tag>分布式</tag>
+         
+        <tag>Hadoop</tag>
          
         <tag>CDH</tag>
          
@@ -1300,9 +1300,9 @@
         <title>CDH使用问题记录</title>
         <pubTime>2015-10-27T01:46:55.000Z</pubTime>
         
-        <tag>Hadoop</tag>
-         
         <tag>分布式</tag>
+         
+        <tag>Hadoop</tag>
          
         <tag>CDH</tag>
          
@@ -1344,9 +1344,9 @@
         <title>基于Solr的Hbase二级索引</title>
         <pubTime>2015-09-01T11:41:27.000Z</pubTime>
         
-        <tag>Hadoop</tag>
-         
         <tag>分布式</tag>
+         
+        <tag>Hadoop</tag>
          
         <tag>CDH</tag>
          
@@ -1394,9 +1394,9 @@
         <title>NLP学习笔记</title>
         <pubTime>2015-09-11T13:51:49.000Z</pubTime>
         
-        <tag>大数据</tag>
-         
         <tag>NLP</tag>
+         
+        <tag>大数据</tag>
          
          
            
@@ -1484,9 +1484,9 @@
         <title>Hadoop生态圈</title>
         <pubTime>2015-08-11T08:29:41.000Z</pubTime>
         
-        <tag>Hadoop</tag>
-         
         <tag>分布式</tag>
+         
+        <tag>Hadoop</tag>
          
         <tag>CDH</tag>
          
@@ -1866,9 +1866,9 @@
         
         <tag>CentOS</tag>
          
-        <tag>J2EE</tag>
-         
         <tag>运维</tag>
+         
+        <tag>J2EE</tag>
          
          
            
