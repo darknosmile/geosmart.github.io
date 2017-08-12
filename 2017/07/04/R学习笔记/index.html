@@ -1,0 +1,739 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="R," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it">
+<meta name="keywords" content="R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2017/07/04/R学习笔记/index.html">
+<meta property="og:site_name" content="Geosmart&#39;s Notes">
+<meta property="og:description" content="R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-07-23T09:31:45.813Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="R学习笔记">
+<meta name="twitter:description" content="R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> R学习笔记 | Geosmart's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?221699150bf25edfe6338d0a9f205159";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Geosmart's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              R学习笔记
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-07-04T08:13:38+08:00" content="4   July   2017">
+            4   July   2017
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/人工智能/" itemprop="url" rel="index">
+                  <span itemprop="name">人工智能</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2017/07/04/R学习笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/04/R学习笔记/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote>
+<p>R is a tool for statistics and data modeling. The R programming language is elegant, versatile, and has a highly expressive syntax designed around working with data. R is more than that, though — it also includes extremely powerful graphics capabilities.</p>
+</blockquote>
+<hr>
+<a id="more"></a> 
+<p><a href="http://tryr.codeschool.com/">Try R</a></p>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p>定义： x&lt;-42，x赋值为42</p>
+<h1 id="向量（Vectors）"><a href="#向量（Vectors）" class="headerlink" title="向量（Vectors）"></a>向量（Vectors）</h1><p>定义： c(1,T,”three”)</p>
+<h2 id="Sequence-Vectors"><a href="#Sequence-Vectors" class="headerlink" title="Sequence Vectors"></a>Sequence Vectors</h2><p>输入：seq(5,9)或5:9<br>输出：[1] 5 6 7 8 9</p>
+<h2 id="设置步长-increments"><a href="#设置步长-increments" class="headerlink" title="设置步长-increments"></a>设置步长-increments</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;seq(<span class="number">5</span>,<span class="number">9</span>,<span class="number">0.5</span>)</div><div class="line">[<span class="number">1</span>] <span class="number">5.0</span> <span class="number">5.5</span> <span class="number">6.0</span> <span class="number">6.5</span> <span class="number">7.0</span> <span class="number">7.5</span> <span class="number">8.0</span> <span class="number">8.5</span> <span class="number">9.0</span></div></pre></td></tr></table></figure>
+<h2 id="向量访问"><a href="#向量访问" class="headerlink" title="向量访问"></a>向量访问</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; sentence &lt;- c(<span class="string">'walk'</span>, <span class="string">'the'</span>, <span class="string">'plank'</span>)</div></pre></td></tr></table></figure>
+<ul>
+<li><p>索引访问:R索引从1开始 </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; sentence[<span class="number">3</span>]</div><div class="line">[<span class="number">1</span>] <span class="string">"plank"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>定义向量访问： </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; sentence[c(<span class="number">1</span>,<span class="number">3</span>)]</div><div class="line">[<span class="number">1</span>] <span class="string">"walk"</span> <span class="string">"dog"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>范围访问： </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; sentence[<span class="number">2</span>:<span class="number">4</span>]  </div><div class="line">[<span class="number">1</span>] <span class="string">"the"</span> <span class="string">"dog"</span> <span class="string">"to"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="修改向量值"><a href="#修改向量值" class="headerlink" title="修改向量值"></a>修改向量值</h2><ul>
+<li><p>单个修改</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; sentence[<span class="number">3</span>]&lt;-<span class="string">"dog"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>批量修改</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; sentence[<span class="number">5</span>:<span class="number">7</span>]&lt;-c(<span class="string">'the'</span>,<span class="string">'poop'</span>,<span class="string">'deck'</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>新增向量</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sentence[<span class="number">4</span>]&lt;-<span class="string">"to"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h1><p>barplot直方图<br><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; vesselsSunk &lt;- c(<span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>)</div><div class="line">&gt; barplot(vesselsSunk)</div></pre></td></tr></table></figure></p>
+<p>scatter plots散点图<br><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; values &lt;- -<span class="number">10</span>:<span class="number">10</span></div><div class="line">&gt; absolutes &lt;- abs(values)</div><div class="line">&gt; plot(values, absolutes)</div></pre></td></tr></table></figure></p>
+<h1 id="NA"><a href="#NA" class="headerlink" title="NA"></a>NA</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt; a &lt;- c(<span class="number">1</span>, <span class="number">3</span>, <span class="literal">NA</span>, <span class="number">7</span>, <span class="number">9</span>)</div><div class="line">&gt; sum(a)</div><div class="line">[<span class="number">1</span>] <span class="literal">NA</span></div><div class="line">&gt; sum(a,na.rm=<span class="literal">T</span>)</div><div class="line">[<span class="number">1</span>] <span class="number">20</span></div></pre></td></tr></table></figure>
+<h1 id="matrix"><a href="#matrix" class="headerlink" title="matrix"></a>matrix</h1><p>定义：3行4列，值都为0<br>matrix(0,3,4)</p>
+<p>升维：dim设置matrix维度<br><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt; plank  &lt;- <span class="number">1</span>:<span class="number">8</span></div><div class="line">&gt; dim(plank) &lt;- c(<span class="number">2</span>,<span class="number">4</span>)</div><div class="line">&gt; print(plank)</div><div class="line">     [,<span class="number">1</span>] [,<span class="number">2</span>] [,<span class="number">3</span>] [,<span class="number">4</span>]</div><div class="line">[<span class="number">1</span>,]    <span class="number">1</span>    <span class="number">3</span>    <span class="number">5</span>    <span class="number">7</span></div><div class="line">[<span class="number">2</span>,]    <span class="number">2</span>    <span class="number">4</span>    <span class="number">6</span>    <span class="number">8</span></div></pre></td></tr></table></figure></p>
+<p>赋值：&gt; plank[1,4] &lt;- 0</p>
+<h2 id="matrix访问"><a href="#matrix访问" class="headerlink" title="matrix访问"></a>matrix访问</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; print(plank)</div><div class="line">     [,<span class="number">1</span>] [,<span class="number">2</span>] [,<span class="number">3</span>] [,<span class="number">4</span>]</div><div class="line">[<span class="number">1</span>,]    <span class="number">1</span>    <span class="number">3</span>    <span class="number">5</span>    <span class="number">7</span></div><div class="line">[<span class="number">2</span>,]    <span class="number">2</span>    <span class="number">4</span>    <span class="number">6</span>    <span class="number">8</span></div></pre></td></tr></table></figure>
+<ul>
+<li><p>单个元素</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; plank[<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">[<span class="number">1</span>] <span class="number">6</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>列</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; plank[,<span class="number">4</span>]</div><div class="line">[<span class="number">1</span>] <span class="number">7</span> <span class="number">8</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>指定范围</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; plank[,<span class="number">2</span>:<span class="number">4</span>]</div><div class="line">     [,<span class="number">1</span>] [,<span class="number">2</span>] [,<span class="number">3</span>]</div><div class="line">[<span class="number">1</span>,]    <span class="number">3</span>    <span class="number">5</span>    <span class="number">7</span></div><div class="line">[<span class="number">2</span>,]    <span class="number">4</span>    <span class="number">6</span>    <span class="number">8</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="绘图-1"><a href="#绘图-1" class="headerlink" title="绘图"></a>绘图</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; elevation &lt;- matrix(<span class="number">1</span>, <span class="number">10</span>, <span class="number">10</span>)</div><div class="line">&gt; elevation[<span class="number">4</span>, <span class="number">6</span>] &lt;- <span class="number">0</span></div></pre></td></tr></table></figure>
+<ul>
+<li><p>轮廓图</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; contour(elevation)</div></pre></td></tr></table></figure>
+</li>
+<li><p>三维轮廓图</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; persp(elevation)</div><div class="line">&gt; persp(elevation, expand=<span class="number">0.2</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="统计函数"><a href="#统计函数" class="headerlink" title="统计函数"></a>统计函数</h1><h2 id="Mean-平均值"><a href="#Mean-平均值" class="headerlink" title="Mean 平均值"></a>Mean 平均值</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">limbs &lt;- c(<span class="number">4</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>)</div><div class="line">names(limbs) &lt;- c(<span class="string">'One-Eye'</span>, <span class="string">'Peg-Leg'</span>, <span class="string">'Smitty'</span>, <span class="string">'Hook'</span>, <span class="string">'Scooter'</span>, <span class="string">'Dan'</span>, <span class="string">'Mikey'</span>, <span class="string">'Blackbeard'</span>)</div><div class="line">&gt; mean(limbs)</div><div class="line"><span class="comment"># 平均值柱状图</span></div><div class="line">&gt; barplot(limbs)</div><div class="line"><span class="comment"># 平均值柱状图 + 平均值水平线</span></div><div class="line">&gt; abline(h=mean(limbs)</div></pre></td></tr></table></figure>
+<h2 id="Median-中位数"><a href="#Median-中位数" class="headerlink" title="Median 中位数"></a>Median 中位数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt; limbs &lt;- c(<span class="number">4</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">14</span>)</div><div class="line">&gt; names(limbs) &lt;- c(<span class="string">'One-Eye'</span>, <span class="string">'Peg-Leg'</span>, <span class="string">'Smitty'</span>, <span class="string">'Hook'</span>, <span class="string">'Scooter'</span>, <span class="string">'Dan'</span>, <span class="string">'Mikey'</span>, <span class="string">'Davy Jones'</span>)</div><div class="line">&gt; mean(limbs)</div><div class="line">[<span class="number">1</span>] <span class="number">4.75</span></div><div class="line">&gt; barplot(limbs)</div><div class="line">&gt; abline(h = mean(limbs))</div></pre></td></tr></table></figure>
+<blockquote>
+<p>It may be factually accurate to say that our crew has an average of 4.75 limbs, but it’s probably also misleading.<br>For situations like this, it’s probably more useful to talk about the “median” value.<br>The median is calculated by sorting the values and choosing the middle one (for sets with an even number of values, the middle two values are averaged).</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; median(limbs)</div><div class="line">[<span class="number">1</span>] <span class="number">4</span></div></pre></td></tr></table></figure>
+<h2 id="Standard-Deviation-标准偏差"><a href="#Standard-Deviation-标准偏差" class="headerlink" title="Standard Deviation 标准偏差"></a>Standard Deviation 标准偏差</h2><blockquote>
+<p>Statisticians use the concept of “standard deviation” from the mean to describe the range of typical values for a data set. For a group of numbers, it shows how much they typically vary from the average value. To calculate the standard deviation, you calculate the mean of the values, then subtract the mean from each number and square the result, then average those squares, and take the square root of that average.</p>
+</blockquote>
+<h1 id="Data-Frames"><a href="#Data-Frames" class="headerlink" title="Data Frames"></a>Data Frames</h1><blockquote>
+<p>R has a structure for just this purpose: the data frame. You can think of a data frame as something akin to a database table or an Excel spreadsheet. It has a specific number of columns, each of which is expected to contain values of a particular type. It also has an indeterminate number of rows - sets of related values for each column.</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt; treasure &lt;- data.frame(weights, prices, types)</div><div class="line">&gt; print(treasure)</div><div class="line">  weights prices  types</div><div class="line"><span class="number">1</span>     <span class="number">300</span>   <span class="number">9000</span>   gold</div><div class="line"><span class="number">2</span>     <span class="number">200</span>   <span class="number">5000</span> silver</div><div class="line"><span class="number">3</span>     <span class="number">100</span>  <span class="number">12000</span>   gems</div><div class="line"><span class="number">4</span>     <span class="number">250</span>   <span class="number">7500</span>   gold</div><div class="line"><span class="number">5</span>     <span class="number">150</span>  <span class="number">18000</span>   gems</div></pre></td></tr></table></figure>
+<h2 id="数据访问"><a href="#数据访问" class="headerlink" title="数据访问"></a>数据访问</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt; treasure[[<span class="number">2</span>]]</div><div class="line">[<span class="number">1</span>]  <span class="number">9000</span>  <span class="number">5000</span> <span class="number">12000</span>  <span class="number">7500</span> <span class="number">18000</span></div><div class="line"></div><div class="line">&gt; treasure[[<span class="string">"weights"</span>]]</div><div class="line">[<span class="number">1</span>] <span class="number">300</span> <span class="number">200</span> <span class="number">100</span> <span class="number">250</span> <span class="number">150</span></div><div class="line"></div><div class="line">&gt; treasure$prices</div><div class="line">[<span class="number">1</span>]  <span class="number">9000</span>  <span class="number">5000</span> <span class="number">12000</span>  <span class="number">7500</span> <span class="number">18000</span></div></pre></td></tr></table></figure>
+<h1 id="文件IO"><a href="#文件IO" class="headerlink" title="文件IO"></a>文件IO</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; piracy &lt;- read.csv(<span class="string">"piracy.csv"</span>)</div><div class="line">&gt; gdp &lt;- read.table(<span class="string">"gdp.txt"</span>, sep=<span class="string">"  "</span>, header=<span class="literal">TRUE</span>)</div></pre></td></tr></table></figure>
+<h1 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h1><h2 id="cor-test"><a href="#cor-test" class="headerlink" title="cor.test"></a>cor.test</h2><p>R can test for correlation between two vectors with the cor.test function.<br><figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; cor.test(countries$GDP, countries$Piracy)</div></pre></td></tr></table></figure></p>
+<h2 id="lm"><a href="#lm" class="headerlink" title="lm"></a>lm</h2><p>if we calculate the linear model that best represents all our data points (with a certain degree of error).<br>The lm function takes a model formula, which is represented by a response variable (piracy rate), a tilde character (~), and a predictor variable (GDP). (Note that the response variable comes first.)</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; line &lt;- lm(countries$Piracy ~ countries$GDP)</div><div class="line">&gt; abline(line)</div></pre></td></tr></table></figure>
+<h1 id="扩展安装"><a href="#扩展安装" class="headerlink" title="扩展安装"></a>扩展安装</h1><p>install.packages(“ggplot2”)</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/R/" rel="tag">#R</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/04/机器学习数学基础/" rel="prev">机器学习数学基础</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/03/Machine Leaning课程笔记Week1-基础概念/" rel="next">Machine Learning课程笔记Week1-基础概念</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2017/07/04/R学习笔记/"
+                   data-title="R学习笔记" data-url="http://geosmart.github.io/2017/07/04/R学习笔记/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=128" alt="geosmart" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">geosmart</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">88</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#变量"><span class="nav-number">1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#向量（Vectors）"><span class="nav-number">2.</span> <span class="nav-text">向量（Vectors）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sequence-Vectors"><span class="nav-number">2.1.</span> <span class="nav-text">Sequence Vectors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置步长-increments"><span class="nav-number">2.2.</span> <span class="nav-text">设置步长-increments</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向量访问"><span class="nav-number">2.3.</span> <span class="nav-text">向量访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改向量值"><span class="nav-number">2.4.</span> <span class="nav-text">修改向量值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绘图"><span class="nav-number">3.</span> <span class="nav-text">绘图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NA"><span class="nav-number">4.</span> <span class="nav-text">NA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#matrix"><span class="nav-number">5.</span> <span class="nav-text">matrix</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#matrix访问"><span class="nav-number">5.1.</span> <span class="nav-text">matrix访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘图-1"><span class="nav-number">5.2.</span> <span class="nav-text">绘图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#统计函数"><span class="nav-number">6.</span> <span class="nav-text">统计函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mean-平均值"><span class="nav-number">6.1.</span> <span class="nav-text">Mean 平均值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Median-中位数"><span class="nav-number">6.2.</span> <span class="nav-text">Median 中位数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Standard-Deviation-标准偏差"><span class="nav-number">6.3.</span> <span class="nav-text">Standard Deviation 标准偏差</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Frames"><span class="nav-number">7.</span> <span class="nav-text">Data Frames</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据访问"><span class="nav-number">7.1.</span> <span class="nav-text">数据访问</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件IO"><span class="nav-number">8.</span> <span class="nav-text">文件IO</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据分析"><span class="nav-number">9.</span> <span class="nav-text">数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cor-test"><span class="nav-number">9.1.</span> <span class="nav-text">cor.test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lm"><span class="nav-number">9.2.</span> <span class="nav-text">lm</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展安装"><span class="nav-number">10.</span> <span class="nav-text">扩展安装</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"geosmart"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

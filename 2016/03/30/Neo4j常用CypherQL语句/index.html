@@ -1,0 +1,694 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="Neo4j," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="记录常用Cypher语句">
+<meta name="keywords" content="Neo4j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neo4j常用CypherQL语句">
+<meta property="og:url" content="http://geosmart.github.io/2016/03/30/Neo4j常用CypherQL语句/index.html">
+<meta property="og:site_name" content="Geosmart&#39;s Notes">
+<meta property="og:description" content="记录常用Cypher语句">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://geosmart.github.io/2016/03/30/Neo4j常用CypherQL语句/Neo4j联合索引测试1.png">
+<meta property="og:image" content="http://geosmart.github.io/2016/03/30/Neo4j常用CypherQL语句/Neo4j联合索引测试2.png">
+<meta property="og:updated_time" content="2016-04-07T09:35:31.554Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neo4j常用CypherQL语句">
+<meta name="twitter:description" content="记录常用Cypher语句">
+<meta name="twitter:image" content="http://geosmart.github.io/2016/03/30/Neo4j常用CypherQL语句/Neo4j联合索引测试1.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Neo4j常用CypherQL语句 | Geosmart's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?221699150bf25edfe6338d0a9f205159";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Geosmart's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Neo4j常用CypherQL语句
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-03-30T20:22:09+08:00" content="30   March   2016">
+            30   March   2016
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/03/30/Neo4j常用CypherQL语句/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/30/Neo4j常用CypherQL语句/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>记录常用Cypher语句</p>
+<hr>
+<a id="more"></a>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="http://neo4j.com/docs/stable/cypher-query-lang.html">cypher-query-lang</a><br><a href="http://neo4j.com/docs/stable/cypher-refcard/">cypher-refcard </a></p>
+<h1 id="create-Node"><a href="#create-Node" class="headerlink" title="create Node"></a>create Node</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> (root:<span class="keyword">User</span> &#123; <span class="keyword">type</span>:<span class="string">'admin'</span>, <span class="keyword">name</span>: <span class="string">'root'</span>&#125;)</div><div class="line"><span class="keyword">CREATE</span> (u1:<span class="keyword">User</span> &#123; <span class="keyword">type</span>:<span class="string">'guest'</span>, <span class="keyword">name</span> : <span class="string">'user1'</span>&#125;)</div><div class="line"><span class="keyword">CREATE</span> (u2:<span class="keyword">User</span> &#123; <span class="keyword">type</span>:<span class="string">'guest'</span>, <span class="keyword">name</span>: <span class="string">'user2'</span>&#125;)</div><div class="line"><span class="keyword">CREATE</span> (u3:<span class="keyword">User</span> &#123; <span class="keyword">type</span>:<span class="string">'guest'</span>, <span class="keyword">name</span>: <span class="string">'user3'</span>&#125;)</div><div class="line"><span class="keyword">CREATE</span> (u4:<span class="keyword">User</span> &#123; <span class="keyword">type</span>:<span class="string">'guest'</span>, <span class="keyword">name</span>: <span class="string">'user4'</span>&#125;)</div></pre></td></tr></table></figure>
+<h1 id="Create-RelationShip"><a href="#Create-RelationShip" class="headerlink" title="Create RelationShip"></a>Create RelationShip</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MATCH (root&#123;type:'admin' &#125;),(guest&#123;type:'guest'&#125;)</div><div class="line"><span class="keyword">CREATE</span>  (root)-[r:knows]-&gt;(guest)</div><div class="line"><span class="keyword">RETURN</span> r</div></pre></td></tr></table></figure>
+<h1 id="Create-Unique-RelationShip"><a href="#Create-Unique-RelationShip" class="headerlink" title="Create  Unique RelationShip"></a>Create  Unique RelationShip</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MATCH (root&#123;type:'admin' &#125;)</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> (root)-[r:knows]-(u5:<span class="keyword">User</span>&#123;<span class="keyword">name</span>:<span class="string">'user5'</span>&#125;)</div><div class="line"><span class="keyword">RETURN</span>  u5</div></pre></td></tr></table></figure>
+<h1 id="match-Node"><a href="#match-Node" class="headerlink" title="match Node"></a>match Node</h1><ul>
+<li><p>match by property</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MATCH (root &#123; name : 'root' &#125;)</div><div class="line">return root</div></pre></td></tr></table></figure>
+</li>
+<li><p>match by ID identifier</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MATCH (s)</div><div class="line">WHERE ID(s) = 65110</div><div class="line">RETURN s</div></pre></td></tr></table></figure>
+</li>
+<li><p>complex query</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">MATCH (d:District &#123;state: &#123;state&#125;, district: &#123;district&#125;&#125;)</div><div class="line">MATCH (d)&lt;-[:REPRESENTS]-(l:Legislator)</div><div class="line">MATCH (l)-[:SERVES_ON]-&gt;(c:Committee)</div><div class="line">MATCH (c)&lt;-[:REFERRED_TO]-(b:Bill)</div><div class="line">MATCH (b)-[:DEALS_WITH]-&gt;(s:Subject)</div><div class="line">WITH l.govtrackID AS govtrackID, l.lastName AS lastName, l.firstName AS firstName, l.currentParty AS party, s.title AS subject, count(*) AS strength, collect(DISTINCT c.name) AS committees ORDER BY strength DESC LIMIT 10</div><div class="line">WITH &#123;lastName: lastName, firstName: firstName, govtrackID: govtrackID, party: party, committees: committees&#125; AS legislator, collect(&#123;subject: subject, strength: strength&#125;) AS subjects</div><div class="line">RETURN &#123;legislator: legislator, subjects: subjects&#125; AS r</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="match-relationNode"><a href="#match-relationNode" class="headerlink" title="match relationNode"></a>match relationNode</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MATCH (root&#123; type:'admin' &#125;)--&gt;(user)</div><div class="line">RETURN user</div></pre></td></tr></table></figure>
+<h1 id="match-Node-and-relationNode"><a href="#match-Node-and-relationNode" class="headerlink" title="match Node and relationNode"></a>match Node and relationNode</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MATCH (root &#123; type:'admin' &#125;)-[r]-(user)</div><div class="line">RETURN r</div></pre></td></tr></table></figure>
+<h1 id="match-collection"><a href="#match-collection" class="headerlink" title="match collection"></a>match collection</h1><h2 id="collection-contain-string"><a href="#collection-contain-string" class="headerlink" title="collection contain string"></a>collection contain string</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">match (an)</div><div class="line">where all (x IN ['709908DCF9D24734BA8FEF8A831F1BA4'] where x in an.preAddressNodeGUIDs)</div><div class="line">return count(an)</div></pre></td></tr></table></figure>
+<h2 id="collection-equal"><a href="#collection-equal" class="headerlink" title="collection equal"></a>collection equal</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">match (an&#123;preAddressNodeGUIDs:['709908DCF9D24734BA8FEF8A831F1BA4 ']&#125;)</div><div class="line">return count(an)</div></pre></td></tr></table></figure>
+<h1 id="delete-relationship"><a href="#delete-relationship" class="headerlink" title="delete relationship"></a>delete relationship</h1><h2 id="delete-a-node-with-its-relationships"><a href="#delete-a-node-with-its-relationships" class="headerlink" title="delete a node with its relationships"></a>delete a node with its relationships</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MATCH (n &#123; name:'Andres' &#125;)DETACH DELETE n</div></pre></td></tr></table></figure>
+<h2 id="delete-all-relationships"><a href="#delete-all-relationships" class="headerlink" title="delete all relationships"></a>delete all relationships</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Match (:AddressNode)-[r:parent]-&gt;(:AddressNode)</div><div class="line"><span class="keyword">delete</span> r</div></pre></td></tr></table></figure>
+<h1 id="start"><a href="#start" class="headerlink" title="start"></a>start</h1><p>The START clause should only be used when accessing legacy indexes <a href="http://neo4j.com/docs/stable/indexing.html">Legacy Indexing</a>.<br>In all other cases, use MATCH instead (see Section 11.1, “Match”).<br>In Cypher, every query describes a pattern, and in that pattern one can have multiple starting points.<br>A starting point is a relationship or a node where a pattern is anchored. Using START you can only introduce starting points by legacy index seeks.<br>Note that trying to use a legacy index that doesn’t exist will generate an error.</p>
+<h1 id="index"><a href="#index" class="headerlink" title="index"></a>index</h1><h2 id="create-index"><a href="#create-index" class="headerlink" title="create index"></a>create index</h2><p>CREATE INDEX ON :PRO( preAddressNodeGUIDs)</p>
+<h2 id="drop-index"><a href="#drop-index" class="headerlink" title="drop index"></a>drop index</h2><p>DROP INDEX ON :PRO( preAddressNodeGUIDs)</p>
+<h2 id="Neo4j联合索引"><a href="#Neo4j联合索引" class="headerlink" title="Neo4j联合索引"></a>Neo4j联合索引</h2><p>Neo4j2.3.x不支持联合索引，可采用拼接字段实现，<a href="https://dzone.com/articles/indexing-neo4j-overview">参考indexing-neo4j-overview</a>；<br>Neo4j 3.0开始支持联合索引，但需要升级至JDK8，<a href="https://github.com/neo4j/neo4j/issues/6841">参考github neo4j Issue</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">profile</div><div class="line">MATCH (p:AddressNode &#123;text:"拙政别墅"&#125;)</div><div class="line">WITH p</div><div class="line">MATCH (o:AddressNode&#123; ruleabbr:"POI"&#125;)</div><div class="line">WHERE id(p) = id(o)</div><div class="line">RETURN p</div></pre></td></tr></table></figure></p>
+<p><img src="Neo4j联合索引测试1.png" alt="Neo4j联合索引测试1"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">profile</div><div class="line">MATCH (p:AddressNode &#123;ruleabbr:"POI",text:"拙政别墅"&#125;)</div><div class="line">RETURN p</div></pre></td></tr></table></figure>
+<p><img src="Neo4j联合索引测试2.png" alt="Neo4j联合索引测试2"><br>暂测试，疑neo4j由于采用lucene全文索引的缘故，在2个字段各有索引，但无联合索引的情况下，索引倒排会提高检索命中率。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Neo4j/" rel="tag">#Neo4j</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/03/Neo4j空间索引学习笔记/" rel="prev">Neo4j空间索引学习笔记</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/23/MongoDB与Neo4j数据同步/" rel="next">MongoDB与Neo4j数据同步</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/03/30/Neo4j常用CypherQL语句/"
+                   data-title="Neo4j常用CypherQL语句" data-url="http://geosmart.github.io/2016/03/30/Neo4j常用CypherQL语句/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=128" alt="geosmart" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">geosmart</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">88</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">1.</span> <span class="nav-text">参考文档</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#create-Node"><span class="nav-number">2.</span> <span class="nav-text">create Node</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-RelationShip"><span class="nav-number">3.</span> <span class="nav-text">Create RelationShip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-Unique-RelationShip"><span class="nav-number">4.</span> <span class="nav-text">Create  Unique RelationShip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#match-Node"><span class="nav-number">5.</span> <span class="nav-text">match Node</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#match-relationNode"><span class="nav-number">6.</span> <span class="nav-text">match relationNode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#match-Node-and-relationNode"><span class="nav-number">7.</span> <span class="nav-text">match Node and relationNode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#match-collection"><span class="nav-number">8.</span> <span class="nav-text">match collection</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#collection-contain-string"><span class="nav-number">8.1.</span> <span class="nav-text">collection contain string</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collection-equal"><span class="nav-number">8.2.</span> <span class="nav-text">collection equal</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#delete-relationship"><span class="nav-number">9.</span> <span class="nav-text">delete relationship</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#delete-a-node-with-its-relationships"><span class="nav-number">9.1.</span> <span class="nav-text">delete a node with its relationships</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delete-all-relationships"><span class="nav-number">9.2.</span> <span class="nav-text">delete all relationships</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#start"><span class="nav-number">10.</span> <span class="nav-text">start</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#index"><span class="nav-number">11.</span> <span class="nav-text">index</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#create-index"><span class="nav-number">11.1.</span> <span class="nav-text">create index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#drop-index"><span class="nav-number">11.2.</span> <span class="nav-text">drop index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neo4j联合索引"><span class="nav-number">11.3.</span> <span class="nav-text">Neo4j联合索引</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"geosmart"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

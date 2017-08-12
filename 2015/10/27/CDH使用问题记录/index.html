@@ -1,0 +1,715 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="Hadoop,分布式,CDH," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="如何制作CDH Agent 虚拟机模板 问题描述：CDH Manager安装配置好一台Agent机器A（VM虚拟机）后，如果以A复制出B，在集群中B与A会冲突，每次Host Inspector只能检测到一个 问题定位：判断为SCM库中HOSTS表的HOST_IDENTIFIER字段冲突导致 解决思路：ClouderaManager是根据什么自动生成HOST_IDENTIFIER的？ 如何复制VM虚">
+<meta name="keywords" content="Hadoop,分布式,CDH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CDH使用问题记录">
+<meta property="og:url" content="http://geosmart.github.io/2015/10/27/CDH使用问题记录/index.html">
+<meta property="og:site_name" content="Geosmart&#39;s Notes">
+<meta property="og:description" content="如何制作CDH Agent 虚拟机模板 问题描述：CDH Manager安装配置好一台Agent机器A（VM虚拟机）后，如果以A复制出B，在集群中B与A会冲突，每次Host Inspector只能检测到一个 问题定位：判断为SCM库中HOSTS表的HOST_IDENTIFIER字段冲突导致 解决思路：ClouderaManager是根据什么自动生成HOST_IDENTIFIER的？ 如何复制VM虚">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2016-03-06T03:02:52.308Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CDH使用问题记录">
+<meta name="twitter:description" content="如何制作CDH Agent 虚拟机模板 问题描述：CDH Manager安装配置好一台Agent机器A（VM虚拟机）后，如果以A复制出B，在集群中B与A会冲突，每次Host Inspector只能检测到一个 问题定位：判断为SCM库中HOSTS表的HOST_IDENTIFIER字段冲突导致 解决思路：ClouderaManager是根据什么自动生成HOST_IDENTIFIER的？ 如何复制VM虚">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> CDH使用问题记录 | Geosmart's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?221699150bf25edfe6338d0a9f205159";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Geosmart's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              CDH使用问题记录
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-27T09:46:55+08:00" content="27   October   2015">
+            27   October   2015
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/大数据/" itemprop="url" rel="index">
+                  <span itemprop="name">大数据</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/10/27/CDH使用问题记录/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/27/CDH使用问题记录/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="如何制作CDH-Agent-虚拟机模板"><a href="#如何制作CDH-Agent-虚拟机模板" class="headerlink" title="如何制作CDH Agent 虚拟机模板"></a>如何制作CDH Agent 虚拟机模板</h1><ul>
+<li>问题描述：CDH Manager安装配置好一台Agent机器A（VM虚拟机）后，如果以A复制出B，在集群中B与A会冲突，每次Host Inspector只能检测到一个</li>
+<li>问题定位：判断为SCM库中HOSTS表的HOST_IDENTIFIER字段冲突导致</li>
+<li>解决思路：ClouderaManager是根据什么自动生成HOST_IDENTIFIER的？ 如何复制VM虚拟机才能不冲突？</li>
+<li>问题解决：由于在复制cm-5.4.7到agent之前启动了cloudera-scm-agent，在/opt/cm-5.4.7/lib/cloudera-scm-agent中生成response.avro和uuid两个文件，cloudera的HOST_IDENTIFIER读取的就是uuid文件的文本，停止agent&gt;删除response.avro和uuid&gt;启动agent，问题解决</li>
+</ul>
+<h1 id="Cloudera-Manager无法删除某项服务"><a href="#Cloudera-Manager无法删除某项服务" class="headerlink" title="Cloudera Manager无法删除某项服务"></a>Cloudera Manager无法删除某项服务</h1><p>删除依赖关系或在命令中查看正在执行的（卡死）的命令，中止即可</p>
+<h1 id="Key-Value-Store-Indexer服务总是异常终止"><a href="#Key-Value-Store-Indexer服务总是异常终止" class="headerlink" title="Key-Value Store Indexer服务总是异常终止"></a>Key-Value Store Indexer服务总是异常终止</h1><ul>
+<li>问题描述：重新构建的Solr Collection和Index，数据写入少量没问题，程序批量写入时（&gt;250条）服务就自动终止   </li>
+<li>问题定位：Java OOM虚拟机内存溢出问题</li>
+<li>解决方式：hbase-indexer github-issues：<a href="https://github.com/NGDATA/hbase-indexer/issues/66">Lily Hbase Indexers always auto exit</a>，<br>通过向hbase-indexer官方github提交issue寻求帮助，确认是OOM问题！<ul>
+<li>运行<code>hbase-indexer server</code>在单个hbase-server服务器调试运行（不在cloudera管理下运行），不会发生OOM</li>
+<li>CM集中修改参数<em>Lily HBase Indexer的Java堆栈大小</em>，默认设置的是131M，改为1GB后重新启动服务，往Hbase写入数据时，SOlr索引生成正常，Hbase-Indexer未自动退出。</li>
+</ul>
+</li>
+</ul>
+<p>其他参考资料：<a href="https://github.com/NGDATA/hbase-indexer/blob/master/hbase-indexer-morphlines/src/main/java/com/ngdata/hbaseindexer/morphline/LocalMorphlineResultToSolrMapper.java">LocalMorphlineResultToSolrMapper源码</a></p>
+<h1 id="创建-Hive-Metastore-数据库表失败"><a href="#创建-Hive-Metastore-数据库表失败" class="headerlink" title="创建 Hive Metastore 数据库表失败"></a>创建 Hive Metastore 数据库表失败</h1><p>问题日志：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">++ exec /opt/cloudera/parcels/CDH-<span class="number">5.4</span>.7-<span class="number">1</span>.cdh5.4.7.p0.3/lib/hadoop/bin/hadoop jar /opt/cloudera/parcels/CDH-<span class="number">5.4</span>.7-<span class="number">1</span>.cdh5.4.7.p0.3/lib/hive/lib/hive-cli-<span class="number">1.1</span>.0-cdh5.4.7.jar org.apache.hive.beeline.HiveSchemaTool -verbose -dbType mysql -initSchema</div><div class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to load driver</div><div class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to load driver</div><div class="line">trueat org.apache.hive.beeline.HiveSchemaHelper.getConnectionToMetastore(HiveSchemaHelper.java:<span class="number">79</span>)</div><div class="line">trueat org.apache.hive.beeline.HiveSchemaTool.getConnectionToMetastore(HiveSchemaTool.java:<span class="number">113</span>)</div><div class="line">trueat org.apache.hive.beeline.HiveSchemaTool.testConnectionToMetastore(HiveSchemaTool.java:<span class="number">159</span>)</div><div class="line">trueat org.apache.hive.beeline.HiveSchemaTool.doInit(HiveSchemaTool.java:<span class="number">257</span>)</div><div class="line">trueat org.apache.hive.beeline.HiveSchemaTool.doInit(HiveSchemaTool.java:<span class="number">243</span>)</div><div class="line">trueat org.apache.hive.beeline.HiveSchemaTool.main(HiveSchemaTool.java:<span class="number">473</span>)</div><div class="line">trueat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</div><div class="line">trueat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:<span class="number">57</span>)</div><div class="line">trueat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:<span class="number">43</span>)</div><div class="line">trueat java.lang.reflect.Method.invoke(Method.java:<span class="number">606</span>)</div><div class="line">trueat org.apache.hadoop.util.RunJar.run(RunJar.java:<span class="number">221</span>)</div><div class="line">trueat org.apache.hadoop.util.RunJar.main(RunJar.java:<span class="number">136</span>)</div><div class="line">Caused by: java.lang.ClassNotFoundException: com.mysql.jdbc.Driver</div><div class="line">trueat java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">366</span>)</div><div class="line">trueat java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">355</span>)</div><div class="line">trueat java.security.AccessController.doPrivileged(Native Method)</div><div class="line">trueat java.net.URLClassLoader.findClass(URLClassLoader.java:<span class="number">354</span>)</div><div class="line">trueat java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">425</span>)</div><div class="line">trueat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:<span class="number">308</span>)</div><div class="line">trueat java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">358</span>)</div><div class="line">trueat java.lang.Class.forName0(Native Method)</div><div class="line">trueat java.lang.Class.forName(Class.java:<span class="number">195</span>)</div><div class="line">trueat org.apache.hive.beeline.HiveSchemaHelper.getConnectionToMetastore(HiveSchemaHelper.java:<span class="number">70</span>)</div><div class="line">true... <span class="number">11</span> more</div><div class="line">true*** schemaTool failed ***</div></pre></td></tr></table></figure>
+<h1 id="CDH5使用端口"><a href="#CDH5使用端口" class="headerlink" title="CDH5使用端口"></a>CDH5使用端口</h1><p><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/cdh_ig_ports_cdh5.html"> CDH 5 组件使用的端口</a></p>
+<h1 id="Hbase运行中止问题"><a href="#Hbase运行中止问题" class="headerlink" title="Hbase运行中止问题"></a>Hbase运行中止问题</h1><ul>
+<li>错误日志</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//cat /var/log/hbase/hbase-cmf-hbase-REGIONSERVER-slave3.lt.com.log.out</span></div><div class="line"></div><div class="line">Error syncing, request close of wal</div><div class="line">java.io.IOException: Failed on local exception: java.io.IOException: Connection reset by peer; Host Details : local host is: <span class="string">"slave3.lt.com/192.168.1.103"</span>; destination host is: <span class="string">"server1.lt.com"</span>:<span class="number">8020</span>;  </div><div class="line">trueat com.sun.proxy.$Proxy20.updateBlockForPipeline(Unknown Source)</div><div class="line">Caused by: java.io.IOException: Connection reset by peer</div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">Unable</span> <span class="string">to</span> <span class="string">reconnect</span> <span class="string">to</span> <span class="string">ZooKeeper</span> <span class="string">service,</span> <span class="string">session</span> <span class="number">0x1508e4d86eb8047</span> <span class="string">has</span> <span class="string">expired,</span> <span class="string">closing</span> <span class="string">socket</span> <span class="string">connection</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="string">Client</span> <span class="string">session</span> <span class="string">timed</span> <span class="string">out,</span> <span class="string">have</span> <span class="string">not</span> <span class="string">heard</span> <span class="string">from</span> <span class="string">server</span> <span class="string">in</span> <span class="number">40003</span><span class="string">ms</span> <span class="string">for</span> <span class="string">sessionid</span> <span class="number">0x1508e4d86eb88ef</span><span class="string">,</span> <span class="string">closing</span> <span class="string">socket</span> <span class="string">connection</span> <span class="string">and</span> <span class="string">attempting</span> <span class="string">reconnect</span></div><div class="line"></div><div class="line"><span class="string">Unable</span> <span class="string">to</span> <span class="string">reconnect</span> <span class="string">to</span> <span class="string">ZooKeeper</span> <span class="string">service,</span> <span class="string">session</span> <span class="number">0x1508e4d86eb88f5</span> <span class="string">has</span> <span class="string">expired,</span> <span class="string">closing</span> <span class="string">socket</span> <span class="string">connection</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">Opening</span> <span class="string">socket</span> <span class="string">connection</span> <span class="string">to</span> <span class="string">server</span> <span class="string">server1.lt.com/192.168.1.91:2181.</span> <span class="string">Will</span> <span class="string">not</span> <span class="string">attempt</span> <span class="string">to</span> <span class="string">authenticate</span> <span class="string">using</span> <span class="string">SASL</span> <span class="string">(unknown</span> <span class="string">error)</span></div></pre></td></tr></table></figure>
+<ul>
+<li>参数说明<br>hbase参数</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">hbase.regionserver.lease.period</span></div><div class="line"><span class="string">默认值：60000</span></div><div class="line"><span class="string">说明：客户端租用HRegion</span> <span class="string">server</span> <span class="string">期限，即超时阀值。</span></div><div class="line"><span class="string">调优：这个配合hbase.client.scanner.caching使用，如果内存够大，但是取出较多数据后计算过程较长，可能超过这个阈值，适当可设置较长的响应时间以防被认为宕机</span></div></pre></td></tr></table></figure>
+<p>zookeeper参数<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">zookeeper.session.timeout</span></div><div class="line"><span class="string">默认值：60000</span></div><div class="line"><span class="string">说明：ZooKeeper</span> <span class="string">服务器允许客户端协商的最大会话超时时间（以毫秒为单位）</span></div><div class="line"><span class="string">调优：zookeeper的超时时间不要设置太大，在服务挂掉的情况下，会反映很慢。</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>解决方式<br>在CM的Hbase配置hbase.regionserver.lease.period默认值改为4（分钟）<br>在CM的Hbase配置hbase.rpc.timeout默认值改为5（分钟）</li>
+</ul>
+<h1 id="Hbase数据操作失败"><a href="#Hbase数据操作失败" class="headerlink" title="Hbase数据操作失败"></a>Hbase数据操作失败</h1><p>问题描述：connection to slave3.lt.com/192.168.1.103:60020 from geosmart: closing ipc connection to slave3.lt.com/192.168.1.103:60020: Connection refused: no further information<br>java.net.ConnectException: Connection refused: no further information</p>
+<h1 id="Hive-UDTF问题"><a href="#Hive-UDTF问题" class="headerlink" title="Hive UDTF问题"></a>Hive UDTF问题</h1><p>问题日志：Error while compliling statement:Failed IndexOutOfBoundException Index.1 Size.1<br>解决方案：<br>init初始化中的ArrayList<ObjectInspector> 和fieldNames个数和类型要对应一致</p>
+<h1 id="Hive-UDTF-code-2问题"><a href="#Hive-UDTF-code-2问题" class="headerlink" title="Hive UDTF code 2问题"></a>Hive UDTF code 2问题</h1><p>问题日志：Error while processing statement: FAILED: Execution Error, return code 2 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask<br>解决方案：/var/log/hive中查看错误日志定位错误</p>
+<h1 id="HUE新建HDFS目录"><a href="#HUE新建HDFS目录" class="headerlink" title="HUE新建HDFS目录"></a>HUE新建HDFS目录</h1><p>问题描述: you are a Hue admin but not a HDFS superuser, “hdfs” or part of HDFS supergroup, “supergroup”<br>解决方案：在hue中新增hdfs用户，以hdfs用户登录创建目录和上传文件</p>
+<h1 id="Hive-Metastore-canary-创建数据库失败"><a href="#Hive-Metastore-canary-创建数据库失败" class="headerlink" title="Hive Metastore canary 创建数据库失败"></a>Hive Metastore canary 创建数据库失败</h1><p>问题描述： Hive Metastore canary 创建数据库失败<br>日志：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">Caused</span> <span class="attr">by:</span> <span class="string">org.datanucleus.exceptions.NucleusException:</span> <span class="string">Attempt</span> <span class="string">to</span> <span class="string">invoke</span> <span class="string">the</span> <span class="string">"BONECP"</span> <span class="string">plugin</span> <span class="string">to</span> <span class="string">create</span> <span class="string">a</span> <span class="string">ConnectionPool</span> <span class="string">gave</span> <span class="string">an</span> <span class="string">error</span> <span class="string">:</span></div><div class="line"><span class="string">The</span> <span class="string">specified</span> <span class="string">datastore</span> <span class="string">driver</span> <span class="string">("com.mysql.jdbc.Driver")</span> <span class="string">was</span> <span class="string">not</span> <span class="string">found</span> <span class="string">in</span> <span class="string">the</span> <span class="string">CLASSPATH.</span> <span class="string">Please</span> <span class="string">check</span> <span class="string">your</span> <span class="string">CLASSPATH</span> <span class="string">specification,</span> <span class="string">and</span> <span class="string">the</span> <span class="string">name</span> <span class="string">of</span> <span class="string">the</span> <span class="string">driver</span></div></pre></td></tr></table></figure>
+<p>问题定位：读取hive数据时报找不到mysql驱动<br>问题解决：</p>
+<pre><code>*    尝试1
+</code></pre><p><code>/opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/lib/hive/lib</code><br><code>cp  /opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/lib/sqoop/lib/mysql-connector-java-5.1.36-bin.jar   /opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/lib/hive/lib</code></p>
+<pre><code>*  尝试2
+</code></pre><p>在<code>/etc/hive/conf.cloudera.hive/hive-env.sh</code>中发现一句<code>$(find /usr/share/java/mysql-connector-java.jar</code><br>于是将驱动拷贝到指定目录解决问题<br><code>cp  /mnt/mysql-connector-java-5.1.36-bin.jar     /usr/share/java/mysql-connector-java.jar</code><br><code>cp  /mnt/mysql-connector-java-5.1.36-bin.jar    /opt/cloudera/parcels/CDH-5.4.7-1.cdh5.4.7.p0.3/lib/hadoop</code><br>解决问题</p>
+<p>2）hive数据库初始化问题<br>问题日志：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">Query</span> <span class="string">for</span> <span class="string">candidates</span> <span class="string">of</span> <span class="string">org.apache.hadoop.hive.metastore.model.MVersionTable</span> <span class="string">and</span> <span class="string">subclasses</span> <span class="string">resulted</span> <span class="string">in</span> <span class="literal">no</span> <span class="string">possible</span> <span class="string">candidates</span></div><div class="line"><span class="string">Required</span> <span class="string">table</span> <span class="string">missing</span> <span class="string">:</span> <span class="string">"`VERSION`"</span> <span class="string">in</span> <span class="string">Catalog</span> <span class="string">""</span> <span class="string">Schema</span> <span class="string">""</span><span class="string">.</span> <span class="string">DataNucleus</span> <span class="string">requires</span> <span class="string">this</span> <span class="string">table</span> <span class="string">to</span> <span class="string">perform</span> <span class="string">its</span> <span class="string">persistence</span> <span class="string">operations.</span> <span class="string">Either</span> <span class="string">your</span> <span class="string">MetaData</span> <span class="string">is</span> <span class="string">incorrect,</span> <span class="string">or</span> <span class="string">you</span> <span class="string">need</span> <span class="string">to</span> <span class="string">enable</span> <span class="string">"datanucleus.autoCreateTables"</span></div><div class="line"><span class="string">org.datanucleus.store.rdbms.exceptions.MissingTableException:</span> <span class="string">Required</span> <span class="string">table</span> <span class="string">missing</span> <span class="string">:</span> <span class="string">"`VERSION`"</span> <span class="string">in</span> <span class="string">Catalog</span> <span class="string">""</span> <span class="string">Schema</span> <span class="string">""</span><span class="string">.</span> <span class="string">DataNucleus</span> <span class="string">requires</span> <span class="string">this</span> <span class="string">table</span> <span class="string">to</span> <span class="string">perform</span> <span class="string">its</span> <span class="string">persistence</span> <span class="string">operations.</span> <span class="string">Either</span> <span class="string">your</span> <span class="string">MetaData</span> <span class="string">is</span> <span class="string">incorrect,</span> <span class="string">or</span> <span class="string">you</span> <span class="string">need</span> <span class="string">to</span> <span class="string">enable</span> <span class="string">"datanucleus.autoCreateTables"</span></div><div class="line">    <span class="string">at</span> <span class="string">org.datanucleus.store.rdbms.table.AbstractTable.exists(AbstractTable.java:485)</span></div></pre></td></tr></table></figure>
+<p><a href="http://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Reinstalling-Hive-Metastore-Database/td-p/24015">解决参考:Reinstalling-Hive-Metastore-Database</a></p>
+<h2 id="在cm中删除oozie、hue和hive服务，重建数据库"><a href="#在cm中删除oozie、hue和hive服务，重建数据库" class="headerlink" title="在cm中删除oozie、hue和hive服务，重建数据库"></a>在cm中删除oozie、hue和hive服务，重建数据库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># mysql -uroot -proot</div><div class="line"><span class="keyword">drop</span> <span class="keyword">database</span> hive;</div><div class="line"><span class="keyword">drop</span> <span class="keyword">database</span> hue;</div><div class="line"><span class="keyword">drop</span> <span class="keyword">database</span> oozie;</div><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> hive <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;  </div><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> hue <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</div><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> oozie <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</div></pre></td></tr></table></figure>
+<h2 id="重新添加hive服务"><a href="#重新添加hive服务" class="headerlink" title="重新添加hive服务"></a>重新添加hive服务</h2><p>配置数据库192.168.1.1(server)/hive(db)/root(user)/root(psd)</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag">#Hadoop</a>
+          
+            <a href="/tags/分布式/" rel="tag">#分布式</a>
+          
+            <a href="/tags/CDH/" rel="tag">#CDH</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/20/MyEclipse安装MapReduceTools插件/" rel="prev">MyEclipse安装MapReduceTools插件</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/20/Hadoop集群离线部署/" rel="next">Hadoop集群离线部署</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/10/27/CDH使用问题记录/"
+                   data-title="CDH使用问题记录" data-url="http://geosmart.github.io/2015/10/27/CDH使用问题记录/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=128" alt="geosmart" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">geosmart</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">88</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#如何制作CDH-Agent-虚拟机模板"><span class="nav-number">1.</span> <span class="nav-text">如何制作CDH Agent 虚拟机模板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cloudera-Manager无法删除某项服务"><span class="nav-number">2.</span> <span class="nav-text">Cloudera Manager无法删除某项服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Key-Value-Store-Indexer服务总是异常终止"><span class="nav-number">3.</span> <span class="nav-text">Key-Value Store Indexer服务总是异常终止</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建-Hive-Metastore-数据库表失败"><span class="nav-number">4.</span> <span class="nav-text">创建 Hive Metastore 数据库表失败</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDH5使用端口"><span class="nav-number">5.</span> <span class="nav-text">CDH5使用端口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hbase运行中止问题"><span class="nav-number">6.</span> <span class="nav-text">Hbase运行中止问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hbase数据操作失败"><span class="nav-number">7.</span> <span class="nav-text">Hbase数据操作失败</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive-UDTF问题"><span class="nav-number">8.</span> <span class="nav-text">Hive UDTF问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive-UDTF-code-2问题"><span class="nav-number">9.</span> <span class="nav-text">Hive UDTF code 2问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HUE新建HDFS目录"><span class="nav-number">10.</span> <span class="nav-text">HUE新建HDFS目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive-Metastore-canary-创建数据库失败"><span class="nav-number">11.</span> <span class="nav-text">Hive Metastore canary 创建数据库失败</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在cm中删除oozie、hue和hive服务，重建数据库"><span class="nav-number">11.1.</span> <span class="nav-text">在cm中删除oozie、hue和hive服务，重建数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重新添加hive服务"><span class="nav-number">11.2.</span> <span class="nav-text">重新添加hive服务</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"geosmart"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

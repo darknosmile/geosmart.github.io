@@ -1,0 +1,708 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="Stored Procedure,MySQL," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。以SP进行SQL业务逻辑封装，执行性能能大大提高，在注意合理拆分SP、SQL书写简洁规范和注释到位的情况下，也能做到易于维护。特别是对于海量数据分析追求时效性的业务，效率第一，就算逻辑复杂不易维护也得认。如Hibernate VS Mybatis，产品 VS 项目，现实世界丰富多彩">
+<meta name="keywords" content="Stored Procedure,MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL存储过程学习笔记">
+<meta property="og:url" content="http://geosmart.github.io/2016/03/08/MySQL存储过程学习笔记/index.html">
+<meta property="og:site_name" content="Geosmart&#39;s Notes">
+<meta property="og:description" content="团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。以SP进行SQL业务逻辑封装，执行性能能大大提高，在注意合理拆分SP、SQL书写简洁规范和注释到位的情况下，也能做到易于维护。特别是对于海量数据分析追求时效性的业务，效率第一，就算逻辑复杂不易维护也得认。如Hibernate VS Mybatis，产品 VS 项目，现实世界丰富多彩">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://geosmart.github.io/2016/03/08/MySQL存储过程学习笔记/DbForgeStudio调试MySQL存储过程.png">
+<meta property="og:updated_time" content="2016-07-21T01:31:47.442Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL存储过程学习笔记">
+<meta name="twitter:description" content="团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。以SP进行SQL业务逻辑封装，执行性能能大大提高，在注意合理拆分SP、SQL书写简洁规范和注释到位的情况下，也能做到易于维护。特别是对于海量数据分析追求时效性的业务，效率第一，就算逻辑复杂不易维护也得认。如Hibernate VS Mybatis，产品 VS 项目，现实世界丰富多彩">
+<meta name="twitter:image" content="http://geosmart.github.io/2016/03/08/MySQL存储过程学习笔记/DbForgeStudio调试MySQL存储过程.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> MySQL存储过程学习笔记 | Geosmart's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?221699150bf25edfe6338d0a9f205159";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Geosmart's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            <i class="menu-item-icon icon-next-commonweal"></i> <br />
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              MySQL存储过程学习笔记
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-03-08T19:31:39+08:00" content="8   March   2016">
+            8   March   2016
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/数据库/" itemprop="url" rel="index">
+                  <span itemprop="name">数据库</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/03/08/MySQL存储过程学习笔记/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/08/MySQL存储过程学习笔记/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>团队一直有小伙伴顶着数据库相关的工作，ETL数据整合分析事情多了，研发开发工作相应减少，终于有机会也来写写存储过程了。<br>以SP进行SQL业务逻辑封装，执行性能能大大提高，在注意合理拆分SP、SQL书写简洁规范和注释到位的情况下，也能做到易于维护。<br>特别是对于海量数据分析追求时效性的业务，效率第一，就算逻辑复杂不易维护也得认。如Hibernate VS Mybatis，产品 VS 项目，现实世界丰富多彩，存在即合理。</p>
+<hr>
+<a id="more"></a>
+<p>MySQL从V5.0开始支持存储过程，V5.0~V5.7版本之间自带的function有所差别，查资料的时候注意过滤，本文以<code>MySQL5.5.4</code>作为测试环境。</p>
+<h1 id="关于MySQL存储过程"><a href="#关于MySQL存储过程" class="headerlink" title="关于MySQL存储过程"></a>关于MySQL存储过程</h1><p>MySQL 存储过程(Stored Procedure) 是通过给定的语法格式编写自定义的数据库API, 包含一系列sql语句的集合, 完成一个复杂的功能.</p>
+<ul>
+<li><a href="http://dev.mysql.com/doc/refman/5.5/en/stored-programs-views.html">MySQL5.5官方文档 存储过程</a></li>
+<li>调试工具：dbForge Studio for MySQL Professional Edition<br><img src="DbForgeStudio调试MySQL存储过程.png" alt="DbForgeStudio调试MySQL存储过程"></li>
+</ul>
+<h1 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h1><p>mysql存储过程中，定义变量有两种方式：</p>
+<h2 id="会话变量"><a href="#会话变量" class="headerlink" title="会话变量"></a>会话变量</h2><p>使用set或select直接赋值，变量名以 @ 开头，可以在一个会话的任何地方声明，作用域是整个会话，称为会话变量。<br>如:<code>set @var=1;</code></p>
+<h2 id="存储过程变量"><a href="#存储过程变量" class="headerlink" title="存储过程变量"></a>存储过程变量</h2><p>以 DECLARE 关键字声明的变量，只能在存储过程中使用，称为存储过程变量，主要用在存储过程中，或者是给存储传参数中。<br>如：<code>DECLARE var1  INT DEFAULT 0;</code></p>
+<h2 id="两者的区别"><a href="#两者的区别" class="headerlink" title="两者的区别"></a>两者的区别</h2><ul>
+<li>在调用存储过程时，以DECLARE声明的变量都会被初始化为 NULL。</li>
+<li>会话变量（即@开头的变量）则不会被再初始化，在一个会话内，只须初始化一次，之后在会话内都是对上一次计算的结果，就相当于在是这个会话内的全局变量。</li>
+<li>在存储过程中，使用动态语句，预处理时，动态内容必须赋给一个会话变量。</li>
+</ul>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>变量命名需与表字段不一致；</li>
+</ul>
+<h1 id="输出日志信息"><a href="#输出日志信息" class="headerlink" title="输出日志信息"></a>输出日志信息</h1><p>SELECT concat(‘Comment:’,’—Comment—‘);</p>
+<h1 id="临时表"><a href="#临时表" class="headerlink" title="临时表"></a>临时表</h1><p><a href="http://www.nowamagic.net/librarys/veda/detail/1317">参考-MySQL临时表的简单用法</a><br><a href="http://dev.mysql.com/doc/refman/5.5/en/internal-temporary-tables.html">参考-internal-temporary-tables</a><br>临时表将在你连接MySQL期间存在。当连接断开时，MySQL将自动删除表并释放所用的空间。当然也可以在仍然连接的时候删除表并释放空间。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 新建</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> sp_output_tmp <span class="keyword">ENGINE</span> = <span class="keyword">MEMORY</span> SELECT... from... where... ;</div><div class="line"><span class="comment">-- 删除</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> sp_output_tmp;</div></pre></td></tr></table></figure></p>
+<h1 id="游标嵌套循环（nested-cursor-loop）"><a href="#游标嵌套循环（nested-cursor-loop）" class="headerlink" title="游标嵌套循环（nested cursor loop）"></a>游标嵌套循环（nested cursor loop）</h1><p><a href="http://stackoverflow.com/questions/6099500/multiple-cursors-in-nested-loops-in-mysql/6099837#6099837">参考/multiple-cursors-in-nested-loops-in-mysql</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">BEGIN</span></div><div class="line">  <span class="keyword">DECLARE</span> done1 <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </div><div class="line">  <span class="comment">-- 批量更新计数器</span></div><div class="line">  <span class="keyword">DECLARE</span> cachSize_matchedAddress <span class="built_in">int</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">  <span class="comment">-- 定义Cursor1</span></div><div class="line">  <span class="keyword">DECLARE</span> cursor_bizId <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">select</span> *  <span class="keyword">from</span> table1;</div><div class="line">  <span class="keyword">DECLARE</span> CONTINUE <span class="keyword">HANDLER</span> <span class="keyword">FOR</span> <span class="keyword">NOT</span> <span class="keyword">FOUND</span> <span class="keyword">SET</span> done1 = <span class="literal">TRUE</span>;  </div><div class="line"></div><div class="line">  <span class="comment">-- 打开Cursor1</span></div><div class="line">  OPEN cursor_bizId;</div><div class="line">  <span class="comment">-- 循环获取业务ID  </span></div><div class="line">  loop_getBizId:LOOP</div><div class="line">     FETCH cursor_bizId INTO bizId;</div><div class="line">      IF done1 THEN</div><div class="line">        LEAVE loop_getBizId;</div><div class="line">        # 关闭Cursor1</div><div class="line">        CLOSE cursor_bizId;</div><div class="line">      <span class="keyword">END</span> <span class="keyword">IF</span>;</div><div class="line">    <span class="comment">-- TODO Cursor1相关业务逻辑</span></div><div class="line"></div><div class="line">    <span class="comment">-- 根据业务ID获取业务数据</span></div><div class="line">    block_matchedAddress:<span class="keyword">BEGIN</span></div><div class="line">        <span class="keyword">DECLARE</span> done2 <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;</div><div class="line">        <span class="comment">-- 定义Cursor2</span></div><div class="line">        <span class="keyword">DECLARE</span> cursor_matchedAddress <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> temp_matchedAddress;</div><div class="line">        <span class="keyword">DECLARE</span> continue <span class="keyword">handler</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done2 = <span class="literal">true</span>;  </div><div class="line"></div><div class="line">        OPEN cursor_matchedAddress;  </div><div class="line">        <span class="comment">-- 循环获取业务数据</span></div><div class="line">        loop_getMatchedAddress:LOOP   </div><div class="line">            FETCH cursor_matchedAddress INTO _rownum, _matchID, _matchedType, _matchedAddress, _x, _y;</div><div class="line">            IF done2 THEN</div><div class="line">               LEAVE loop_getMatchedAddress;</div><div class="line">               <span class="comment">-- 关闭Cursor2</span></div><div class="line">               CLOSE cursor_matchedAddress;</div><div class="line">            <span class="keyword">END</span> <span class="keyword">IF</span>;</div><div class="line">            <span class="comment">-- TODO Cursor2相关业务逻辑</span></div><div class="line"></div><div class="line">        <span class="keyword">END</span> <span class="keyword">LOOP</span> loop_getMatchedAddress;</div><div class="line">      <span class="keyword">END</span> block_matchedAddress;</div><div class="line"></div><div class="line">  <span class="keyword">END</span> <span class="keyword">LOOP</span> loop_getBizId;</div><div class="line"><span class="keyword">END</span></div></pre></td></tr></table></figure>
+<h1 id="动态sql"><a href="#动态sql" class="headerlink" title="动态sql"></a>动态sql</h1><p>PREPARE命令：<code>PREPARE stmt_name FROM preparable_stmt</code><br>The PREPARE statement prepares a SQL statement and assigns it a name, stmt_name, by which to refer to the statement later. The prepared statement is executed with EXECUTE and released with DEALLOCATE PREPARE. For examples, see Section 13.5, “SQL Syntax for Prepared Statements”.  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">"select *  from table"</span>;</div><div class="line"><span class="keyword">PREPARE</span> stmt <span class="keyword">from</span> @<span class="keyword">sql</span> ;</div><div class="line"><span class="keyword">EXECUTE</span> stmt;</div><div class="line"><span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> stmt;</div></pre></td></tr></table></figure>
+<p>注意：<strong>The text must represent a single statement, not multiple statements.</strong></p>
+<h1 id="批量更新"><a href="#批量更新" class="headerlink" title="批量更新"></a>批量更新</h1><p>在sp中类似<code>insert into (column1) values (value1)</code>这样循环单条insert执行速度太慢，<br>可采用<code>temporary table</code>将数据先插入临时表；设置一个计数器，当临时表达到limit记录数时，关联更新目标表并重置临时表以释放资源。</p>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><h2 id="Json序列化函数JSON-Array不存在问题"><a href="#Json序列化函数JSON-Array不存在问题" class="headerlink" title="Json序列化函数JSON_Array不存在问题"></a>Json序列化函数JSON_Array不存在问题</h2><p>问题描述：JSON_Array does not existed<br>解决：我用的V5.5，不支持,V5.7.8才支持;</p>
+<blockquote>
+<p>As of MySQL 5.7.8, MySQL supports a native JSON data type that enables efficient access to data in JSON (JavaScript Object Notation) documents. The JSON data type provides these advantages over storing JSON-format strings in a string column:</p>
+</blockquote>
+<h2 id="嵌套Cusor问题"><a href="#嵌套Cusor问题" class="headerlink" title="嵌套Cusor问题"></a>嵌套Cusor问题</h2><p>问题描述：子Cursor fetch的values总是父Cursor的第一个值，见<a href="https://gist.github.com/geosmart/c3d7f4eb0d9ad53751d7">gist存储过程记录</a><br>解决：View的问题，换成temporary table解决，见<a href="https://gist.github.com/geosmart/9020fdc1cad9fb0ab36e">gist-batchUpdateMatchedAddress.sql</a></p>
+<h2 id="游标动态sql问题"><a href="#游标动态sql问题" class="headerlink" title="游标动态sql问题"></a>游标动态sql问题</h2><p>问题描述：动态设置的条件与静态条件相比，少返回1条记录<br>原因：游标中查询条件不支持动态条件。<br><a href="http://dev.mysql.com/doc/refman/5.6/en/sql-syntax-prepared-statements.html">参考sql-syntax-prepared-statements</a></p>
+<blockquote>
+<p>SQL syntax for prepared statements can be used within stored procedures, but not in stored functions or triggers. However, a cursor cannot be used for a dynamic statement that is prepared and executed with PREPARE and EXECUTE. The statement for a cursor is checked at cursor creation time, so the statement cannot be dynamic.</p>
+</blockquote>
+<p>解决：<a href="http://stackoverflow.com/questions/7685588/dynamic-cursor-in-stored-procedure">参考dynamic-cursor-in-stored-procedure</a></p>
+<ul>
+<li>A cursor will only accept a select statement, so if the SQL really needs to be dynamic make the declare cursor part of the statement you are executing.</li>
+<li>以View视图或Temporary Table临时表形式间接实现</li>
+</ul>
+<h2 id="新建视图时select中不能带有动态参数"><a href="#新建视图时select中不能带有动态参数" class="headerlink" title="新建视图时select中不能带有动态参数"></a>新建视图时select中不能带有动态参数</h2><p>原因： Within a stored program, the SELECT statement cannot refer to program parameters or local variables.<br>解决：View嵌套子查询，参考<a href="http://stackoverflow.com/questions/8428641/views-select-contains-a-subquery-in-the-from-clause">View’s SELECT contains a subquery in the FROM clause</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> view_clients_credit_usage <span class="keyword">as</span></div><div class="line">    <span class="keyword">select</span> client_id, <span class="keyword">sum</span>(credits_used) <span class="keyword">as</span> credits_used</div><div class="line">    <span class="keyword">from</span> credit_usage</div><div class="line">    <span class="keyword">group</span> <span class="keyword">by</span> client_id;</div><div class="line"></div><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> view_credit_status <span class="keyword">as</span></div><div class="line">    <span class="keyword">select</span></div><div class="line">        credit_orders.client_id,</div><div class="line">        <span class="keyword">sum</span>(credit_orders.number_of_credits) <span class="keyword">as</span> purchased,</div><div class="line">        <span class="keyword">ifnull</span>(t1.credits_used,<span class="number">0</span>) <span class="keyword">as</span> used</div><div class="line">    <span class="keyword">from</span> credit_orders</div><div class="line">    <span class="keyword">left</span> <span class="keyword">outer</span> <span class="keyword">join</span> view_clients_credit_usage <span class="keyword">as</span> t1 <span class="keyword">on</span> t1.client_id = credit_orders.client_id</div><div class="line">    <span class="keyword">where</span> credit_orders.payment_status=<span class="string">'Paid'</span></div><div class="line">    <span class="keyword">group</span> <span class="keyword">by</span> credit_orders.client_id);</div></pre></td></tr></table></figure></p>
+<p>　</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Stored-Procedure/" rel="tag">#Stored Procedure</a>
+          
+            <a href="/tags/MySQL/" rel="tag">#MySQL</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/09/JVM学习笔记（三）垃圾收集器与内存分配策略/" rel="prev">JVM学习笔记（三）垃圾收集器与内存分配策略</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/07/JVM学习笔记（二）Java内存区域与内存溢出异常/" rel="next">JVM学习笔记（二）Java内存区域与内存溢出异常</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2016/03/08/MySQL存储过程学习笔记/"
+                   data-title="MySQL存储过程学习笔记" data-url="http://geosmart.github.io/2016/03/08/MySQL存储过程学习笔记/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/3156608?v=3&s=128" alt="geosmart" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">geosmart</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">88</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于MySQL存储过程"><span class="nav-number">1.</span> <span class="nav-text">关于MySQL存储过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量定义"><span class="nav-number">2.</span> <span class="nav-text">变量定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#会话变量"><span class="nav-number">2.1.</span> <span class="nav-text">会话变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储过程变量"><span class="nav-number">2.2.</span> <span class="nav-text">存储过程变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两者的区别"><span class="nav-number">2.3.</span> <span class="nav-text">两者的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">2.4.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#输出日志信息"><span class="nav-number">3.</span> <span class="nav-text">输出日志信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#临时表"><span class="nav-number">4.</span> <span class="nav-text">临时表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#游标嵌套循环（nested-cursor-loop）"><span class="nav-number">5.</span> <span class="nav-text">游标嵌套循环（nested cursor loop）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态sql"><span class="nav-number">6.</span> <span class="nav-text">动态sql</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#批量更新"><span class="nav-number">7.</span> <span class="nav-text">批量更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题记录"><span class="nav-number">8.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Json序列化函数JSON-Array不存在问题"><span class="nav-number">8.1.</span> <span class="nav-text">Json序列化函数JSON_Array不存在问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套Cusor问题"><span class="nav-number">8.2.</span> <span class="nav-text">嵌套Cusor问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游标动态sql问题"><span class="nav-number">8.3.</span> <span class="nav-text">游标动态sql问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建视图时select中不能带有动态参数"><span class="nav-number">8.4.</span> <span class="nav-text">新建视图时select中不能带有动态参数</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">geosmart</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"geosmart"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+     
+  	  <script type="text/javascript">
+  		var duoshuo_user_ID = geosmart
+      var duoshuo_admin_nickname="geosmart"
+  	  </script>
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
